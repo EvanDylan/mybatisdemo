@@ -1,4 +1,4 @@
-package org.rhine.demo;
+package org.rhine.mybatis.demo;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -15,6 +15,8 @@ public class UserMapperTest {
 
     private SqlSession sqlSession;
 
+    private SqlSession sqlSession2;
+
     @Before
     public void prepareSqlSession() {
         String resource = "mybatis-config.xml";
@@ -27,6 +29,7 @@ public class UserMapperTest {
         SqlSessionFactory sqlSessionFactory =
                 new SqlSessionFactoryBuilder().build(inputStream);
         sqlSession = sqlSessionFactory.openSession();
+        sqlSession2 = sqlSessionFactory.openSession();
     }
 
     @Test
@@ -35,5 +38,27 @@ public class UserMapperTest {
         User user = userMapper.queryUser(1L);
         System.out.println(user.toString());
         Assert.assertNotNull(user);
+    }
+
+    /**
+     * 验证一级缓存的存在
+     */
+    @Test
+    public void firstLevelCacheTest() {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user1 = userMapper.queryUser(1L);
+        User user2 = userMapper.queryUser(1L);
+        System.out.println(user1 == user2);
+        Assert.assertSame(user1, user2);
+    }
+
+    @Test
+    public void secondLevelCacheTest() {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        UserMapper userMapper2 = sqlSession2.getMapper(UserMapper.class);
+        User user = userMapper.queryUser(1L);
+        sqlSession.close();
+        User user2 = userMapper2.queryUser(1L);
+        System.out.println(user == user2);
     }
 }

@@ -1,8 +1,11 @@
-package org.rhine.demo;
+package org.rhine.mybatis.demo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 2995475587390398675L;
 
     private long id;
 
