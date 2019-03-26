@@ -52,12 +52,15 @@ public class UserMapperTest {
         Assert.assertSame(user1, user2);
     }
 
+    /**
+     * 验证二级缓存的存在
+     */
     @Test
     public void secondLevelCacheTest() {
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         UserMapper userMapper2 = sqlSession2.getMapper(UserMapper.class);
         User user = userMapper.queryUser(1L);
-        sqlSession.close();
+        sqlSession.commit();
         User user2 = userMapper2.queryUser(1L);
         System.out.println(user == user2);
     }
