@@ -5,6 +5,12 @@
 <configuration>
     <settings>
         <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!-- 开启全局延迟加载功能 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 当开启时任何方法的调用都会加载该对象的所有属性 否则每个属性会按需加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!-- 指定哪些对象的方法触发一次延迟加载,以下值为默认,列举出来仅为了突出说明之用 -->
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
         <!--<setting name="cacheEnabled" value="false"/>-->
         <!--<setting name="localCacheScope" value="STATEMENT"/>-->
     </settings>
@@ -20,6 +26,8 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="user-mapper.xml"/>
+        <mapper resource="UserMapper.xml"/>
+        <mapper resource="JobMapper.xml"/>
+        <mapper resource="JobDataMapper.xml"/>
     </mappers>
 </configuration>
