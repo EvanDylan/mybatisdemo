@@ -29,6 +29,7 @@
         <mapper resource="UserMapper.xml"/>
         <mapper resource="JobMapper.xml"/>
         <mapper resource="JobDataMapper.xml"/>
+        <!-- 注意和XML版本使用的区别,一个是使用resource指定,一个使用class指定 -->
         <mapper class="org.rhine.mybatis.demo.annotation.UserMapper"/>
     </mappers>
 </configuration>
